@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var item_resource: InvItem = preload("res://inventory/items/book.tres")
+@export var item_resource: InvItem = preload("res://inventory/items/coin.tres")
 @export var glow_distance: float = 50
 @export var glow_speed: float = 5.0
 

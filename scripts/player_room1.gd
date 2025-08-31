@@ -9,16 +9,10 @@ var is_jumping := false
 var vertical_velocity := 0.0
 var jump_start_position := Vector2.ZERO
 
-# 🎒 Inventory system
-var inventory: Dictionary = {}  # item_name -> quantity
-
-# 🔊 Sounds
+@export var inventory_yay: Inv
 @onready var step_sound: AudioStreamPlayer2D = $StepSound
 @onready var jump_sound: AudioStreamPlayer2D = $JumpSound
 @onready var bgm: AudioStreamPlayer2D = $BGM
-
-# Inventory UI
-@onready var inventory_ui = get_parent().get_node("InventoryLayer/InventoryPanel")
 
 func _ready() -> void:
 	tilemap = get_parent().get_node("TileMap2")
@@ -27,29 +21,25 @@ func _ready() -> void:
 		step_sound.pitch_scale = 2.0
 	if bgm:
 		bgm.play()
+	inventory_yay.connect("item_inserted", Callable(self, "_on_item_inserted"))
 
-func add_item(item_name: String, amount: int = 1) -> void:
-	if item_name in inventory:
-		inventory[item_name] += amount
-	else:
-		inventory[item_name] = amount
-	inventory_ui.update_inventory(inventory)
+func add_item(item: InvItem, amount: int = 1) -> void:
+	inventory_yay.insert(item, amount)
 
-func remove_item(item_name: String, amount: int = 1) -> void:
-	if item_name in inventory:
-		inventory[item_name] -= amount
-		if inventory[item_name] <= 0:
-			inventory.erase(item_name)
-	inventory_ui.update_inventory(inventory)
+func remove_item(item: InvItem, amount: int = 1) -> void:
+	inventory_yay.remove(item, amount)
 
-func has_item(item_name: String, amount: int = 1) -> bool:
-	return item_name in inventory and inventory[item_name] >= amount
+func has_item(item: InvItem, amount: int = 1) -> bool:
+	for slot in inventory_yay.slots:
+		if slot.item == item and slot.amount >= amount:
+			return true
+	return false
 
 func list_items() -> void:
-	for name in inventory.keys():
-		print(name, " x", inventory[name])
+	for slot in inventory_yay.slots:
+		if slot.item:
+			print(slot.item.name, "x", slot.amount)
 
-# ✅ Movement & walkability
 func is_position_walkable(pos: Vector2) -> bool:
 	var local_pos := tilemap.to_local(pos)
 	var cell := tilemap.local_to_map(local_pos)
@@ -67,24 +57,21 @@ func _physics_process(delta: float) -> void:
 			is_jumping = false
 			vertical_velocity = 0
 	else:
-		var input_vector := Vector2.ZERO
-		input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-		input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-		input_vector = input_vector.normalized()
-		
+		var input_vector := Vector2(
+			Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+			Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+		).normalized()
+
 		var next_pos := global_position + input_vector * SPEED * delta
 		if is_position_walkable(next_pos):
-			velocity.x = input_vector.x * SPEED
-			velocity.y = input_vector.y * SPEED
+			velocity = input_vector * SPEED
 		else:
 			velocity = Vector2.ZERO
 
-		if input_vector.length() > 0:
-			if step_sound and not step_sound.playing:
-				step_sound.play()
-		else:
-			if step_sound:
-				step_sound.stop()
+		if input_vector.length() > 0 and step_sound and not step_sound.playing:
+			step_sound.play()
+		elif step_sound:
+			step_sound.stop()
 
 		if Input.is_action_just_pressed("jump"):
 			is_jumping = true
@@ -95,5 +82,3 @@ func _physics_process(delta: float) -> void:
 				jump_sound.play()
 
 	move_and_slide()
-
-@export var inventory_yay: Inv

@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8gwajccb5tdy"]
+
+[ext_resource type="Script" uid="uid://dj4hreb7ka31v" path="res://gumball_machine.gd" id="1_nr4f3"]
+
+[node name="GumballMachine" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_nr4f3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="PopupPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="PopupPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

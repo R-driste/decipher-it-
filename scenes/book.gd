@@ -1,6 +1,7 @@
 extends Area2D
 
-@export var item_name: String = "Book"
+@export var item_resource: InvItem = preload("res://inventory/items/book.tres")  # <- hardcoded
+
 @export var glow_distance: float = 50
 @export var glow_speed: float = 5.0
 
@@ -10,7 +11,7 @@ var time: float = 0.0
 
 func _ready():
 	monitoring = true
-	set_process_input(true)  # enable _input processing
+	set_process_input(true)
 
 func _process(delta: float) -> void:
 	var player = get_parent().get_node("Dristi")
@@ -31,7 +32,9 @@ func _input(event: InputEvent) -> void:
 		var mouse_event = event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed:
 			var player = get_parent().get_node("Dristi")
-			if player:
-				player.add_item(item_name)
-				print("Picked up:", item_name)
-				queue_free()
+			if player and item_resource:
+				if player.inventory_yay.insert(item_resource):
+					print("Picked up:", item_resource.name)
+					queue_free()
+				else:
+					print("No space in inventory for:", item_resource.name)

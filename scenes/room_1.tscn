@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cba6i4sy3cgny"]
+[gd_scene load_steps=25 format=3 uid="uid://cba6i4sy3cgny"]
 
 [ext_resource type="Texture2D" uid="uid://cay1khbxknxne" path="res://atlas_32x.png" id="1_0tsjr"]
 [ext_resource type="PackedScene" uid="uid://br2gofv378h2g" path="res://scenes/player.tscn" id="2_irjyx"]
@@ -9,10 +9,10 @@
 [ext_resource type="Resource" uid="uid://dhnof03rbawm6" path="res://inventory/player_inventory.tres" id="5_4xhvh"]
 [ext_resource type="FontFile" uid="uid://csijpnjln1gep" path="res://assets/fonts/PixelOperator8.ttf" id="6_0akh5"]
 [ext_resource type="Texture2D" uid="uid://s1jym6gbulhg" path="res://assets/kenney_generic-items/Spritesheet/genericItems_spritesheet_colored.png" id="7_d0u7m"]
-[ext_resource type="Script" uid="uid://bp4wedqam15cm" path="res://scenes/book.gd" id="10_k86bo"]
-[ext_resource type="Script" uid="uid://csxe4cy0bguor" path="res://scenes/book_2.gd" id="11_4xhvh"]
+[ext_resource type="Script" uid="uid://csxe4cy0bguor" path="res://inventory/items/book.gd" id="11_4xhvh"]
 [ext_resource type="Texture2D" uid="uid://b1g2no33ncvqq" path="res://assets/sprites/book.png" id="11_f05lu"]
-[ext_resource type="Script" uid="uid://c212kl0qulgw0" path="res://inventory/items/book.gd" id="11_k86bo"]
+[ext_resource type="Script" uid="uid://xd2taskpdj8w" path="res://inventory/items/coin.gd" id="12_4xhvh"]
+[ext_resource type="Texture2D" uid="uid://ylgqdhcu5b0x" path="res://assets/sprites/ching.png" id="13_hv3v0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vu5en"]
 texture = ExtResource("1_0tsjr")
@@ -13049,6 +13049,9 @@ sources/2 = SubResource("TileSetAtlasSource_3wwl0")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4xhvh"]
 size = Vector2(123, 152)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_4xhvh"]
+radius = 40.0
+
 [node name="Room1" type="Node2D"]
 
 [node name="TileMap2" type="TileMap" parent="."]
@@ -13116,7 +13119,7 @@ layer_0/tile_data = PackedInt32Array(-720940, 589826, 41, -655404, 589826, 42, -
 [node name="Book" type="Area2D" parent="."]
 position = Vector2(-159, -19)
 scale = Vector2(0.25, 0.25)
-script = ExtResource("10_k86bo")
+script = ExtResource("11_4xhvh")
 
 [node name="Sprite2D" type="Sprite2D" parent="Book"]
 position = Vector2(4.00006, 0)
@@ -13138,23 +13141,40 @@ scale = Vector2(0.383333, 0.3875)
 texture = ExtResource("11_f05lu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Book2"]
-position = Vector2(4, -4)
+position = Vector2(4, 0)
 shape = SubResource("RectangleShape2D_4xhvh")
 
-[node name="InventoryLayer" type="CanvasLayer" parent="."]
+[node name="Coin" type="Area2D" parent="."]
+position = Vector2(-123, 158)
+scale = Vector2(0.25, 0.25)
+script = ExtResource("12_4xhvh")
 
-[node name="InventoryPanel" type="Panel" parent="InventoryLayer"]
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("11_k86bo")
+[node name="Sprite2D" type="Sprite2D" parent="Coin"]
+position = Vector2(-44.3333, -50.75)
+scale = Vector2(0.158, 0.15)
+texture = ExtResource("13_hv3v0")
 
-[node name="Label" type="Label" parent="InventoryLayer/InventoryPanel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Inventory!"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin"]
+position = Vector2(-44, -52)
+scale = Vector2(0.8, 0.8)
+shape = SubResource("CircleShape2D_4xhvh")
 
-[node name="GridContainer" type="GridContainer" parent="InventoryLayer/InventoryPanel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Coin2" type="Area2D" parent="."]
+position = Vector2(-177, 112)
+scale = Vector2(0.25, 0.25)
+script = ExtResource("12_4xhvh")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coin2"]
+position = Vector2(-44.3333, -50.75)
+scale = Vector2(0.158, 0.15)
+texture = ExtResource("13_hv3v0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin2"]
+position = Vector2(-44, -52)
+scale = Vector2(0.8, 0.8)
+shape = SubResource("CircleShape2D_4xhvh")
+
+[node name="TileMap6" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_3wwl0")
+format = 2
+layer_0/tile_data = PackedInt32Array(-851985, 458753, 9, -786449, 458753, 10, -720913, 458753, 9, -655377, 458753, 10, -589841, 458753, 9, -524305, 458753, 9, -458769, 458753, 10, -393233, 458753, 9, -327697, 458753, 10, -262161, 458753, 9, -196625, 458753, 10, -131089, 458753, 9, -65553, 458753, 10, -17, 458753, 9, 65519, 458753, 10, 131055, 458753, 9, 196591, 458753, 9, 262127, 458753, 10, -917484, 262145, 9, -851948, 262145, 10, -786412, 262145, 9, -720876, 262145, 10, -655340, 262145, 9, -589804, 262145, 10, -524268, 262145, 9, -458732, 262145, 10, -393196, 262145, 9, -327660, 262145, 10, -262124, 262145, 9, -196588, 262145, 10, -131052, 262145, 9, -65516, 262145, 10, 20, 262145, 9, 65556, 262145, 10, 131092, 262145, 9, 196628, 262145, 10)
