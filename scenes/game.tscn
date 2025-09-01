@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bt4rdu5x1pv73"]
+[gd_scene load_steps=24 format=3 uid="uid://bt4rdu5x1pv73"]
 
 [ext_resource type="PackedScene" uid="uid://br2gofv378h2g" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="Script" uid="uid://boiucq2jx06vb" path="res://scenes/door_1.gd" id="3_gee14"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://dlcr4f866y5lr" path="res://assets/sounds/lo-fi-room-206488.mp3" id="7_u5sy4"]
 [ext_resource type="Script" uid="uid://deql1233tphvh" path="res://scenes/door_ui_control.gd" id="11_kvpfn"]
 [ext_resource type="FontFile" uid="uid://csijpnjln1gep" path="res://assets/fonts/PixelOperator8.ttf" id="12_dinhu"]
+[ext_resource type="Script" uid="uid://dg7gt2mdq42sn" path="res://scenes/intro_screen.gd" id="13_kvuet"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_lbhrr"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -8439,6 +8440,9 @@ outline_color = Color(0.541678, 0.762573, 7.70092e-07, 1)
 [sub_resource type="Theme" id="Theme_kvuet"]
 default_font = ExtResource("12_dinhu")
 
+[sub_resource type="LabelSettings" id="LabelSettings_kvuet"]
+font_size = 10
+
 [node name="Game" type="Node2D"]
 
 [node name="TileMap2" type="TileMap" parent="."]
@@ -8461,6 +8465,7 @@ position = Vector2(280, -11)
 shape = SubResource("RectangleShape2D_0tnpc")
 
 [node name="Door2" type="Area2D" parent="TileMap"]
+visible = false
 script = ExtResource("4_0tnpc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/Door2"]
@@ -8468,6 +8473,7 @@ position = Vector2(408, -11)
 shape = SubResource("RectangleShape2D_0tnpc")
 
 [node name="Door3" type="Area2D" parent="TileMap"]
+visible = false
 script = ExtResource("5_vtaks")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/Door3"]
@@ -8542,3 +8548,30 @@ layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 theme = SubResource("Theme_kvuet")
+
+[node name="IntroScreen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -21.0
+offset_top = -25.0
+offset_right = 122.0
+offset_bottom = 88.0
+script = ExtResource("13_kvuet")
+rules_text = null
+win_text = null
+
+[node name="ColorRect" type="ColorRect" parent="IntroScreen"]
+layout_mode = 0
+offset_left = -96.0
+offset_top = -32.0
+offset_right = 144.0
+offset_bottom = 112.0
+color = Color(0.721977, 0.554026, 0.459738, 1)
+
+[node name="Label" type="Label" parent="IntroScreen"]
+layout_mode = 0
+offset_left = -95.0
+offset_top = -32.0
+offset_right = 143.0
+offset_bottom = 112.0
+label_settings = SubResource("LabelSettings_kvuet")

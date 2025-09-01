@@ -20,6 +20,8 @@ func _ready() -> void:
 		step_sound.pitch_scale = 2.0
 	if bgm:
 		bgm.play()
+	var size = get_viewport().get_visible_rect().size
+	print("Viewport size: ", size)
 
 func is_position_walkable(pos: Vector2) -> bool:
 	var cell := tilemap.local_to_map(pos)

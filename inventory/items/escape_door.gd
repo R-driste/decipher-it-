@@ -1,17 +1,10 @@
 extends Control
-
 @onready var sprite = $Sprite2D
 @onready var area2d = $Area2D
 @onready var popup = $PopupPanel
 @onready var label = $PopupPanel/Label
-
-@export var key_item: InvItem = preload("res://inventory/items/key.tres")
-@export var description: String = "You see a shiny \ngumball machine."
-
+@export var description: String = "A locked door.\nYou need a key to escape."
 var selected: bool = false
-var coins_inserted: int = 0
-var coins_needed: int = 3
-
 signal interactable_selected(interactable)
 
 func _ready():
@@ -35,17 +28,9 @@ func _on_area2d_click(viewport, event, shape_idx):
 
 func use_item(item: InvItem):
 	print(item.name)
-	if item.name == "Coin":
-		coins_inserted += 1
-		print("Coins inserted: ", coins_inserted, "/", coins_needed)
-		
-		if coins_inserted >= coins_needed:
-			var player = get_tree().get_current_scene().get_node("Dristi")
-			player.inventory_yay.insert(key_item)
-			popup.visible = false
-			coins_inserted = 0  # Reset for next use
-			print("Key item added to inventory!")
-		else:
-			print("Need ", coins_needed - coins_inserted, " more coins")
+	if item.name == "Key":
+		print("YAY YOU ESCAPED!")
+		popup.visible = false
+		get_tree().change_scene_to_file("res://scenes/game.tscn")
 	else:
-		print("This machine only accepts coins!")
+		print("This door requires a key to open!")
